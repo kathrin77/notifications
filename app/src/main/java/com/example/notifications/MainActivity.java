@@ -10,13 +10,30 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Button zum Ausloesen der Notification
+    Button showNtfc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Button zum Ausloesen der Notification
+        showNtfc = (Button) findViewById(R.id.showNtfc);
+        showNtfc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNotification();
+            }
+        });
+    }
+
+    private void createNotification() {
 
         // Creating a simple notification:
         // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
@@ -30,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
                         .setSmallIcon(R.mipmap.ic_stat_textsms)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!")
-                        .setVibrate(new long[] {400,700,500}); //hinzugefügt nach Uwe Post, Vibrieren
-
+                        .setVibrate(new long[] {400,700,500}) //hinzugefügt nach Uwe Post, Vibrieren
+                        // Set the notification to cancel when the user taps on it
+                        .setAutoCancel(true);
         // Creates an explicit intent for an Activity in your app
         //original:
-        //Intent resultIntent = new Intent(this, ResultActivity.class);
+        Intent resultIntent = new Intent(this, ResultActivity.class);
         //geändert zu MainActivity, da keine ResultActivity gebaut:
-        Intent resultIntent = new Intent(this, MainActivity.class);
+        //Intent resultIntent = new Intent(this, MainActivity.class);
 
 
         // The stack builder object will contain an artificial back stack for the
@@ -46,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         // Adds the back stack for the Intent (but not the Intent itself)
         //original:
-        // stackBuilder.addParentStack(ResultActivity.class);
+        stackBuilder.addParentStack(ResultActivity.class);
         //geändert zu (siehe oben)
-        stackBuilder.addParentStack(MainActivity.class);
+        //stackBuilder.addParentStack(MainActivity.class);
 
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
