@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://C:\Users\T\AndroidStudioProjects\notifications\Notifications.iml" filepath="C:\Users\T\AndroidStudioProjects\notifications\Notifications.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\T\AndroidStudioProjects\notifications\app\app.iml" filepath="C:\Users\T\AndroidStudioProjects\notifications\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/notifications.iml" filepath="$PROJECT_DIR$/.idea/notifications.iml" />
     </modules>
   </component>

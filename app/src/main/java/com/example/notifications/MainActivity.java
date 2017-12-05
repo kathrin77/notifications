@@ -47,12 +47,23 @@ public class MainActivity extends AppCompatActivity {
                         .setSmallIcon(R.mipmap.ic_stat_textsms)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!")
-                        .setVibrate(new long[] {400,700,500}) //hinzugefügt nach Uwe Post, Vibrieren
+                        .setVibrate(new long[]{400, 700, 500}) //hinzugefügt nach Uwe Post, Vibrieren
                         // Set the notification to cancel when the user taps on it
                         .setAutoCancel(true);
         // Creates an explicit intent for an Activity in your app
         //original:
         Intent resultIntent = new Intent(this, ResultActivity.class);
+
+        // mNotificationId is a unique integer your app uses to identify the
+        // notification. For example, to cancel the notification, you can pass its ID
+        // number to NotificationManager.cancel().
+        int mNotificationId = 1;
+
+        // Gibt Metadaten zum Intent hinzu, hier die NotificationId,
+        // um die Notification in der ResultActivity canceln zu koennen
+        resultIntent.putExtra("notifyID", mNotificationId);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //
         //geändert zu MainActivity, da keine ResultActivity gebaut:
         //Intent resultIntent = new Intent(this, MainActivity.class);
 
@@ -61,28 +72,28 @@ public class MainActivity extends AppCompatActivity {
         // started Activity.
         // This ensures that navigating backward from the Activity leads out of
         // your app to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        /*TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);*/
         // Adds the back stack for the Intent (but not the Intent itself)
         //original:
-        stackBuilder.addParentStack(ResultActivity.class);
+        /*stackBuilder.addParentStack(ResultActivity.class);*/
         //geändert zu (siehe oben)
         //stackBuilder.addParentStack(MainActivity.class);
 
         // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
+        /*stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
-                );
+                );*/
         mBuilder.setContentIntent(resultPendingIntent);
+
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // mNotificationId is a unique integer your app uses to identify the
-        // notification. For example, to cancel the notification, you can pass its ID
-        // number to NotificationManager.cancel().
-        int mNotificationId = 1;
+        // ActionButton fuer Expanded View
+        mBuilder.addAction(R.drawable.ic_stat_textsms, "Loes was aus", resultPendingIntent);
+
         mNotificationManager.notify(mNotificationId, mBuilder.build());
 
 /* Gemäss Buch von Uwe Post, Android-Apps entwickeln für Einsteiger, reicht auch einfach das hier:
