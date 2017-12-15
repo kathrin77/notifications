@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Button zum Ausloesen der Notification
+        // Button zum Ausloesen der Notification: OnClickListener setzen
         showNtfc = (Button) findViewById(R.id.showNtfc);
         showNtfc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,12 +33,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Methode zum Erstellen und Ausloesen einer einfachen Notification:
+     * enthaelt Channel-ID, NotificationBuilder und Intent
+     * Basiert auf folgendem Skript:
+     * https://developer.android.com/guide/topics/ui/notifiers/notifications.html
+     */
+
     private void createNotification() {
 
-        // Creating a simple notification:
-        // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
 
-        // The id of the channel.
+        // Die Channel-ID
         String CHANNEL_ID = "my_channel_01";
 
         //Notification: Inhalt & Look
@@ -47,45 +52,24 @@ public class MainActivity extends AppCompatActivity {
                         .setSmallIcon(R.mipmap.ic_stat_textsms)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!")
-                        .setVibrate(new long[]{400, 700, 500}) //hinzugefügt nach Uwe Post, Vibrieren
+                        .setVibrate(new long[]{400, 700, 500}) //Vibrieren
                         // Set the notification to cancel when the user taps on it
                         .setAutoCancel(true);
-        // Creates an explicit intent for an Activity in your app
-        //original:
+        // Intent spezifiziert eine Activity in der App, welche von der Notification aufgerufen werden soll
+
         Intent resultIntent = new Intent(this, ResultActivity.class);
 
-        // mNotificationId is a unique integer your app uses to identify the
-        // notification. For example, to cancel the notification, you can pass its ID
-        // number to NotificationManager.cancel().
+        // mNotificationId ist eine Zahl-ID, mit welcher die App die Notification identifizieren kann.
+        // Die ID der Notification kann an eine Methode uebergeben werden,
+        // z.B. um die Notification zu loeschen: NotificationManager.cancel().
         int mNotificationId = 1;
 
         // Gibt Metadaten zum Intent hinzu, hier die NotificationId,
         // um die Notification in der ResultActivity canceln zu koennen
         resultIntent.putExtra("notifyID", mNotificationId);
+
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        //
-        //geändert zu MainActivity, da keine ResultActivity gebaut:
-        //Intent resultIntent = new Intent(this, MainActivity.class);
 
-
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-        // This ensures that navigating backward from the Activity leads out of
-        // your app to the Home screen.
-        /*TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);*/
-        // Adds the back stack for the Intent (but not the Intent itself)
-        //original:
-        /*stackBuilder.addParentStack(ResultActivity.class);*/
-        //geändert zu (siehe oben)
-        //stackBuilder.addParentStack(MainActivity.class);
-
-        // Adds the Intent that starts the Activity to the top of the stack
-        /*stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );*/
         mBuilder.setContentIntent(resultPendingIntent);
 
         NotificationManager mNotificationManager =
@@ -96,24 +80,5 @@ public class MainActivity extends AppCompatActivity {
 
         mNotificationManager.notify(mNotificationId, mBuilder.build());
 
-/* Gemäss Buch von Uwe Post, Android-Apps entwickeln für Einsteiger, reicht auch einfach das hier:
-(und das funktioniert auch, getestet). Dazu braucht es in der StringXML noch folgenden Eintrag:
-    <string name="hello_world">Hallo Welt!</string>
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setVibrate(new long[] {400,700,500})
-                .setContentTitle(getText(R.string.app_name))
-                .setContentText(getText(R.string.hello_world))
-                .setWhen(System.currentTimeMillis()+2000)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setContentIntent(pendingIntent);
-
-        Notification notification = builder.build();
-
-        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
-        manager.notify(1,notification);*/
     }
 }

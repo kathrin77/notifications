@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Notifications.iml" filepath="$PROJECT_DIR$/Notifications.iml" />
       <module fileurl="file://C:\Users\T\AndroidStudioProjects\notifications\Notifications.iml" filepath="C:\Users\T\AndroidStudioProjects\notifications\Notifications.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/notifications.iml" filepath="$PROJECT_DIR$/.idea/notifications.iml" />
+      <module fileurl="file://C:\Users\kathr\AndroidStudioProjects\Notifications\.idea\notifications.iml" filepath="C:\Users\kathr\AndroidStudioProjects\Notifications\.idea\notifications.iml" />
     </modules>
   </component>
 </project>
